@@ -30,11 +30,11 @@ var getDelRandomVal = function (array) {
 
 // функция перевода с анг на русский
 var flatFunc = function (choisePin) {
-  if (choisePin == 'flat') {
+  if (choisePin === 'flat') {
     return 'квартира';
-  } else if (choisePin == 'house') {
+  } else if (choisePin === 'house') {
     return 'Дом';
-  } else if (choisePin == 'palace') {
+  } else if (choisePin === 'palace') {
     return 'Замок';
   } else {
     return 'бунгало';
