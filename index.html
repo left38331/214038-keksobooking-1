@@ -17,7 +17,7 @@
       <img src="img/keksobooking.svg" alt="Keksobooking. Кексы по соседству" width="215" height="45">
     </div>
 
-    <section class="map">
+		<section class="map map--faded">
       <div class="map__pins">
         <div class="map__overlay">
           <h2 class="map__title">И снова Токио!</h2>
@@ -91,7 +91,7 @@
       <h2 class="notice__title">Ваше объявление</h2>
 
       <form class="ad-form ad-form--disabled" method="post" enctype="multipart/form-data" autocomplete="off">
-        <fieldset class="ad-form-header">
+				<fieldset class="ad-form-header" disabled>
           <legend class="ad-form-header__title">Ваша фотография (для карты)</legend>
           <div class="ad-form-header__upload">
             <div class="ad-form-header__preview">
@@ -105,7 +105,7 @@
           </div>
         </fieldset>
 
-        <fieldset class="ad-form__element ad-form__element--wide">
+				<fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="title">Заголовок объявления</label>
           <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио">
         </fieldset>
@@ -264,7 +264,7 @@
       </div>
     </article>
 
-<!--    <button type="button" class="map__pin" style="left: 200px; top: 400px;"><img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления"></button>-->
+
   </template>
 
 	<script src="js/map.js"></script>
