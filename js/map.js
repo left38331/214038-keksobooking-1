@@ -180,6 +180,121 @@ var openDialogPanel = function (numberPoster) {
   mapCard.children[0].setAttribute('tabindex', '0');
 };
 
-makeArray(8);
-createPin();
-openDialogPanel(0);
+var FIELDSET = document.getElementsByTagName('FIELDSET'); 
+
+// функция добавления атрибута disabled всем fieldset в форме
+var addFieldsetBlock = function (array) {
+  for (var i =0; i < array.length; i++) {
+    array[i].setAttribute('disabled', '');
+  }
+};
+
+// функция удаления атрибутов
+var removeAttributes = function (array) {
+  for (var i =0; i < array.length; i++) {
+    array[i].removeAttribute('disabled');
+  }
+};
+
+// функция показа дефолтного адреса главной метки, до перехода в активное состояние
+var defaultAdressPin = function () {
+  var address = document.getElementById('address');
+  var mapPin = document.querySelector('.map__pin');
+  var adressStr = mapPin.getAttribute('style');
+  var num = parseInt(adressStr.replace(/\D+/g,""));
+  adressStr = String(num);
+  var adressPin = '' + adressStr[0] + '' + adressStr[1] + '' + adressStr[2] + ', ' + adressStr[3] + '' + adressStr[4] + '' + adressStr[5] + '';
+  address.setAttribute('value', '' + adressPin + '');
+};
+
+// функция, которая дает дифолтное состояние сайта до перетаскивания пина
+var passiveState = function () {
+  addFieldsetBlock(FIELDSET);
+  defaultAdressPin();
+};
+
+// функция, которая меняет состояние сайта после перетягивания пина
+var mouseAction = function () {
+  var point = document.querySelector('.map__pin--main');
+  var map = document.querySelector('.map');
+  var button = map.getElementsByTagName('button');
+  var pins = document.querySelector('.map__pins');
+  var form = document.querySelector('.ad-form');
+  point.addEventListener('mouseup', function () {
+  if (posterList) {
+    posterList = [];
+    if (button.length > 1) {
+      while (pins.children.length > 2) {
+        pins.removeChild(pins.lastChild);
+      }
+    }
+  }
+    map.classList.remove('map--faded');
+    form.classList.remove('ad-form--disabled');
+    removeAttributes(FIELDSET);
+    makeArray(8);
+    createPin();
+  });
+};
+
+var map = document.querySelector('.map');
+var pinMap = document.querySelector('.map__pins');
+var article = document.querySelector('.map__card');
+
+// находим по атрибуту src номер нашего элемента в массиве
+var findElementNumber = function (element) {
+  var elem = element.getAttribute('src');
+  var re = /\D+/ig;
+  var result = elem.replace(re, '');
+  return parseInt(result) - 1;
+};
+
+// функция удаления бокового окна, если выбираешь другое
+var removeDialogPanel = function () {
+  var article = document.querySelector('.map__card');
+  if (article) {
+    article.parentNode.removeChild(article);
+  }
+};
+
+var closeDialog = function (evt) {
+  var closeButton = document.querySelector('.popup__close');
+  if (evt.target.className == 'popup__close') {
+    removeDialogPanel();
+  }
+};
+
+passiveState();
+mouseAction();
+
+// функция отображения окна при нажатии на метку мышкой
+var onPinClick = function (evt) {
+  if (evt.target.className == 'map__pin') {
+    removeDialogPanel();
+    openDialogPanel(findElementNumber(evt.target.children[0]));
+  }
+  if (evt.target.tagName == 'IMG' && !evt.target.parentNode.classList.contains('map__pin--main')) {
+    removeDialogPanel();
+    openDialogPanel(findElementNumber(evt.target));
+//    console.log(document.querySelector('.popup__close'));
+  }
+};
+
+// функция отображения окна при нажатии на метку enter
+var onEnterKeydown = function (evt) {
+  if (evt.target.className == 'map__pin' && evt.keyCode === 13) {
+    removeDialogPanel();
+    openDialogPanel(findElementNumber(evt.target.children[0]));
+  }
+  if (evt.target.tagName == 'IMG' && !evt.target.parentNode.classList.contains('map__pin--main') && evt.keyCode === 13) {
+    removeDialogPanel();
+    openDialogPanel(findElementNumber(evt.target));
+  }
+  if (evt.keyCode === 27) {
+    removeDialogPanel();
+  }
+};
+
+pinMap.addEventListener('click', onPinClick);
+pinMap.addEventListener('keydown', onEnterKeydown);
+map.addEventListener('click', closeDialog);
