@@ -201,7 +201,7 @@ var defaultAdressPin = function () {
   var address = document.getElementById('address');
   var mapPin = document.querySelector('.map__pin');
   var adressStr = mapPin.getAttribute('style');
-  var num = parseInt(adressStr.replace(/\D+/g, ''));
+  var num = parseInt(adressStr.replace(/\D+/g, ''), 10);
   adressStr = String(num);
   var adressPin = '' + adressStr[0] + '' + adressStr[1] + '' + adressStr[2] + ', ' + adressStr[3] + '' + adressStr[4] + '' + adressStr[5] + '';
   address.setAttribute('value', '' + adressPin + '');
